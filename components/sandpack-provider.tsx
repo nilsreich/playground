@@ -46,7 +46,7 @@ export const Sandpack = ({ children }: { children: ReactNode }) => {
               <title>Document</title>
               <script>
               tailwind.config = {
-                darkMode: "class"
+                darkMode: "selector"
               };
             </script>
             </head>
