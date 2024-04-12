@@ -4,6 +4,8 @@ import "./globals.css";
 import { SandpackProvider } from "@codesandbox/sandpack-react";
 import { useSearchParams } from "next/navigation";
 import { decompressFromEncodedURIComponent } from "lz-string";
+import { Toaster } from "@/components/ui/sonner";
+import { SandpackCSS } from "@/components/sandpack-styles";
 
 export default function RootLayout({
   children,
@@ -20,28 +22,31 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <SandpackCSS />
+      </head>
       <body>
         <SandpackProvider
           template="react"
           options={{
+            //bundlerURL: "https://sandpack-bundler.codesandbox.io",
             externalResources: ["https://cdn.tailwindcss.com"],
             classes: {
-              "sp-editor":
-                "md:h-[100vh] border-b h-[50vh] md:border-r md:border-b-0",
+              "sp-editor": "h-full",
+              "sp-console": "h-full",
             },
           }}
           files={{
             "App.js": {
               code: search
                 ? `${reescapedCode}`
-                : `export default function App() {
-                return <h1>Hello Sandpack</h1>
-              }`,
+                : `export default function App() {\n\x20return <h1>Hello Sandpack</h1>\n}`,
             },
           }}
         >
           {children}
         </SandpackProvider>
+        <Toaster />
       </body>
     </html>
   );
