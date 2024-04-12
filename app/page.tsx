@@ -58,7 +58,7 @@ export default function Home() {
   return (
     <div>
       <Button
-        className="dark:text-white  absolute bottom-2 left-2 font-bold text-xs z-10"
+        className="bg-pink-500 text-pink-50 absolute bottom-2 left-2 font-bold text-xs z-10"
         variant={"ghost"}
         size={"sm"}
         onClick={() => setShowEditor(!showEditor)}
