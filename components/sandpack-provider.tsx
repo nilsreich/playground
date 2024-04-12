@@ -35,37 +35,6 @@ export const Sandpack = ({ children }: { children: ReactNode }) => {
             ? `${reescapedCode}`
             : `export default function App() {\n\x20console.log("Hello World!")\n\x20return <h1>Hello Sandpack</h1>\n}`,
         },
-        "/public/index.html": {
-          code:
-            theme === "dark"
-              ? `<!DOCTYPE html>
-          <html lang="en" class="dark">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Document</title>
-              <script>
-              tailwind.config = {
-                darkMode: "selector"
-              };
-            </script>
-            </head>
-            <body>
-              <div id="root" class="dark"></div>
-            </body>
-          </html>`
-              : `<!DOCTYPE html>
-          <html lang="en">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Document</title>
-            </head>
-            <body>
-              <div id="root"></div>
-            </body>
-          </html>`,
-        },
       }}
     >
       {children}
