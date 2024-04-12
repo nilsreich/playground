@@ -13,7 +13,7 @@ export default function RootLayout({
   const searchParams = useSearchParams();
 
   const search = searchParams.get("search");
-  const reescapedCode = decompressFromEncodedURIComponent(search)
+  const reescapedCode = decompressFromEncodedURIComponent(search ?? "")
     ?.replace(/\\x20/g, " ")
     .replace(/\\n/g, "\n")
     .replace(/\\'/g, "'");
