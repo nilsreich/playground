@@ -5,6 +5,7 @@ import {
   SandpackPreview,
   useSandpack,
   SandpackConsole,
+  SandpackFileExplorer,
 } from "@codesandbox/sandpack-react";
 import { EyeIcon, MoonIcon, Share2Icon, SunIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -101,6 +102,7 @@ export default function Home() {
           >
             <ResizablePanelGroup direction="vertical">
               <ResizablePanel defaultSize={75}>
+                <SandpackFileExplorer />
                 <SandpackCodeEditor showRunButton />
               </ResizablePanel>
               <ResizableHandle />
