@@ -44,9 +44,14 @@ export const Sandpack = ({ children }: { children: ReactNode }) => {
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <title>Document</title>
+              <script>
+              tailwind.config = {
+                darkMode: "class"
+              };
+            </script>
             </head>
             <body>
-              <div id="root"></div>
+              <div id="root" class="dark"></div>
             </body>
           </html>`
               : `<!DOCTYPE html>
