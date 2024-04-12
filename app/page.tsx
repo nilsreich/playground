@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useChat } from "ai/react";
+import { Message, useChat } from "ai/react";
 import { PickaxeIcon } from "lucide-react";
 import { compressToEncodedURIComponent } from "lz-string";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -25,7 +25,7 @@ export default function MyComponent() {
     [searchParams]
   );
 
-  const handleMessage = (messages) => {
+  const handleMessage = (messages: Message) => {
     const search = createQueryString(
       "search",
       compressToEncodedURIComponent(messages.content)
