@@ -4,7 +4,6 @@ import "./globals.css";
 import { SandpackProvider } from "@codesandbox/sandpack-react";
 import { useSearchParams } from "next/navigation";
 import { decompressFromEncodedURIComponent } from "lz-string";
-import { Suspense } from "react";
 
 export default function RootLayout({
   children,
@@ -41,7 +40,7 @@ export default function RootLayout({
             },
           }}
         >
-          <Suspense>{children} </Suspense>
+          {children}
         </SandpackProvider>
       </body>
     </html>
