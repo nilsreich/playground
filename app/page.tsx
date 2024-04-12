@@ -21,7 +21,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useTheme } from "next-themes";
 
 export default function Home() {
-  const [showEditor, setShowEditor] = useState(false);
+  const [showEditor, setShowEditor] = useState(true);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const { setTheme } = useTheme();
   const searchParams = useSearchParams();
@@ -49,14 +49,12 @@ export default function Home() {
       compressToEncodedURIComponent(code)
     );
     router.push(`/?${search}`);
-    navigator.clipboard.writeText(
-      `playground-blond.vercel.app/?${search}`
-    );
+    navigator.clipboard.writeText(`playground-blond.vercel.app/?${search}`);
     toast.info("Preview copied to clipboard!");
   };
 
   return (
-    <div>
+    <div className="h-svh">
       <Button
         className="bg-pink-500 text-pink-50 absolute bottom-2 left-2 font-bold text-xs z-10"
         variant={"ghost"}
