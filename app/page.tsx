@@ -6,9 +6,9 @@ import {
   useSandpack,
   SandpackConsole,
 } from "@codesandbox/sandpack-react";
-import { EyeIcon, Share2Icon } from "lucide-react";
+import { EyeIcon, MoonIcon, Share2Icon, SunIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import { compressToEncodedURIComponent } from "lz-string";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -17,11 +17,15 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { toast } from "sonner";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useTheme } from "next-themes";
 
 export default function Home() {
   const [showEditor, setShowEditor] = useState(false);
-
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const { setTheme } = useTheme();
   const searchParams = useSearchParams();
+
   const router = useRouter();
 
   // Get a new searchParams string by merging the current
@@ -35,12 +39,10 @@ export default function Home() {
     },
     [searchParams]
   );
-
   const { sandpack } = useSandpack();
   const { files, activeFile } = sandpack;
 
   const code = files[activeFile].code;
-
   const getCode = () => {
     const search = createQueryString(
       "search",
@@ -48,7 +50,7 @@ export default function Home() {
     );
     router.push(`/?${search}`);
     navigator.clipboard.writeText(
-      `https://glowing-meme-6qggp97pqh5jgj-3000.app.github.dev/?${search}`
+      `playground-blond.vercel.app/?${search}`
     );
     toast.info("Preview copied to clipboard!");
   };
@@ -56,7 +58,7 @@ export default function Home() {
   return (
     <div>
       <Button
-        className="absolute bottom-2 right-2 font-bold text-xs z-10 "
+        className="dark:text-white  absolute bottom-2 left-2 font-bold text-xs z-10"
         variant={"ghost"}
         size={"sm"}
         onClick={() => setShowEditor(!showEditor)}
@@ -64,18 +66,41 @@ export default function Home() {
         <EyeIcon size={12} />
       </Button>
       {showEditor ? (
-        <Button
-          className="absolute bottom-2 right-12 font-bold text-xs z-10 "
-          variant={"ghost"}
-          size={"sm"}
-          onClick={() => getCode()}
-        >
-          <Share2Icon size={12} />
-        </Button>
+        <>
+          <Button
+            className="dark:text-white absolute bottom-2 left-12 font-bold text-xs z-10 left"
+            variant={"ghost"}
+            size={"sm"}
+            onClick={() => getCode()}
+          >
+            <Share2Icon size={12} />
+          </Button>
+          <Button
+            className="dark:text-white absolute bottom-2 left-[5.5rem] font-bold text-xs z-10 dark:hidden left"
+            variant={"ghost"}
+            size={"sm"}
+            onClick={() => setTheme("dark")}
+          >
+            <SunIcon size={12} />
+          </Button>
+          <Button
+            className="dark:text-white absolute bottom-2 left-[5.5rem] font-bold text-xs z-10 dark:block hidden left"
+            variant={"ghost"}
+            size={"sm"}
+            onClick={() => setTheme("light")}
+          >
+            <MoonIcon size={12} />
+          </Button>
+        </>
       ) : null}
-      <ResizablePanelGroup direction="horizontal">
+      <ResizablePanelGroup direction={isDesktop ? "horizontal" : "vertical"}>
         {showEditor ? (
-          <ResizablePanel defaultSize={30}>
+          <ResizablePanel
+            defaultSize={50}
+            order={1}
+            id={"editor"}
+            className="dark:bg-[#151515]"
+          >
             <ResizablePanelGroup direction="vertical">
               <ResizablePanel defaultSize={75}>
                 <SandpackCodeEditor showRunButton />
@@ -83,7 +108,7 @@ export default function Home() {
               <ResizableHandle />
               <ResizablePanel defaultSize={25}>
                 <ScrollArea className="h-full">
-                  <SandpackConsole />
+                  <SandpackConsole resetOnPreviewRestart />
                 </ScrollArea>
               </ResizablePanel>
             </ResizablePanelGroup>
@@ -91,7 +116,11 @@ export default function Home() {
         ) : null}
         <ResizableHandle />
 
-        <ResizablePanel defaultSize={showEditor ? 70 : 100}>
+        <ResizablePanel
+          defaultSize={showEditor ? 50 : 100}
+          order={2}
+          id={"preview"}
+        >
           <SandpackPreview
             showOpenInCodeSandbox={false}
             showRefreshButton={false}
