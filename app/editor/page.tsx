@@ -22,7 +22,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useTheme } from "next-themes";
 
 export default function Editor() {
-  const [showEditor, setShowEditor] = useState(true);
+  const [showEditor, setShowEditor] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const { setTheme } = useTheme();
   const searchParams = useSearchParams();
