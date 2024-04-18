@@ -5,7 +5,7 @@ import {
   SandpackPreview,
   useSandpack,
   SandpackConsole,
-  
+  SandpackFileExplorer,
 } from "@codesandbox/sandpack-react";
 import { EyeIcon, MoonIcon, Share2Icon, SunIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -21,9 +21,17 @@ import { toast } from "sonner";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useTheme } from "next-themes";
 
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+
 export default function Editor() {
-  const [showEditor, setShowEditor] = useState(false);
+  const [showEditor, setShowEditor] = useState(true);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [isOpen, setIsOpen] = useState(true);
+
   const { setTheme } = useTheme();
   const searchParams = useSearchParams();
 
@@ -50,7 +58,9 @@ export default function Editor() {
       compressToEncodedURIComponent(code)
     );
     router.push(`/editor/?${search}`);
-    navigator.clipboard.writeText(`https://playground-blond.vercel.app/editor/?${search}`);
+    navigator.clipboard.writeText(
+      `https://glowing-meme-6qggp97pqh5jgj-3000.app.github.dev/editor?${search}`
+    );
     toast.info("Preview copied to clipboard!");
   };
 
@@ -95,34 +105,47 @@ export default function Editor() {
       <ResizablePanelGroup direction={isDesktop ? "horizontal" : "vertical"}>
         {showEditor ? (
           <ResizablePanel
-            defaultSize={50}
+            defaultSize={70}
             order={1}
             id={"editor"}
             className="dark:bg-[#151515]"
           >
-            <ResizablePanelGroup direction="vertical">
-              <ResizablePanel defaultSize={75}>
-                <SandpackCodeEditor showRunButton />
+            <ResizablePanelGroup direction="horizontal">
+              <ResizablePanel defaultSize={20}>
+                <SandpackFileExplorer />
               </ResizablePanel>
               <ResizableHandle />
-              <ResizablePanel defaultSize={25}>
-                <ScrollArea className="h-full">
-                  <SandpackConsole resetOnPreviewRestart />
-                </ScrollArea>
+
+              <ResizablePanel defaultSize={80}>
+                <ResizablePanelGroup direction="vertical">
+                  <ResizablePanel defaultSize={70}>
+                    <ScrollArea className="h-full">
+                      <SandpackCodeEditor showRunButton />
+                    </ScrollArea>
+                  </ResizablePanel>
+                  <ResizableHandle />
+
+                  <ResizablePanel defaultSize={30}>
+  
+                      <SandpackConsole resetOnPreviewRestart />
+                  </ResizablePanel>
+                </ResizablePanelGroup>
               </ResizablePanel>
+              <ResizableHandle />
             </ResizablePanelGroup>
           </ResizablePanel>
         ) : null}
         <ResizableHandle />
 
         <ResizablePanel
-          defaultSize={showEditor ? 50 : 100}
+          defaultSize={showEditor ? 30 : 100}
           order={2}
           id={"preview"}
         >
           <SandpackPreview
             showOpenInCodeSandbox={false}
-            showRefreshButton={false}
+            showRefreshButton
+            showNavigator
             style={{ height: "100vh", width: "100%" }}
           />
         </ResizablePanel>
